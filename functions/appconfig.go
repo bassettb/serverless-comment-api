@@ -1,8 +1,8 @@
 package functions
 
 type AppConfig struct {
-	DataBucket string
-	CommentsFile string
+	DataBucket        string
+	CommentsFile      string
 	NewCommentsPrefix string
-	AdminKey string
+	AdminKey          string
 }

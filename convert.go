@@ -1,9 +1,9 @@
 package main
 
 import (
-	"example.com/functions"
 	"encoding/json"
 	"encoding/xml"
+	"example.com/functions"
 	"io/ioutil"
 	"os"
 	"time"
