@@ -1,0 +1,4 @@
+.env
+*.dat
+openapi.yaml
+.DS_Store
