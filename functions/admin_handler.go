@@ -88,6 +88,7 @@ func getNewComments(ctx context.Context) ([]NewCommentFile, error) {
 	}
 	it := bkt.Objects(ctx, &query)
 
+	// results are iterated in lexigraphical order, so oldest dates will be first
 	for {
 		attrs, err := it.Next()
 		if err == iterator.Done {
@@ -112,6 +113,9 @@ func getNewComments(ctx context.Context) ([]NewCommentFile, error) {
 			Comment:  comment,
 		}
 		newCommentFiles = append(newCommentFiles, newCommentFile)
+		if len(newCommentFiles) >= 20 {
+			break
+		}
 	}
 	return newCommentFiles, nil
 }
