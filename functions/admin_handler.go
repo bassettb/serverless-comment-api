@@ -27,13 +27,12 @@ func GetNewCommentsHandler(w http.ResponseWriter, r *http.Request) {
 	newCommentFiles, err := getNewComments(r.Context())
 	if err != nil {
 		http.Error(w, "failed retrieving comments", 500)
-		fmt.Fprintln(os.Stderr, "GetNewCommentsHandler error: failed retrieving comments: %v", err)
+		fmt.Fprintf(os.Stderr, "GetNewCommentsHandler error: failed retrieving comments: %v\n", err)
 		return
 	}
-
-	w.Header().Set("Content-Type", "application/json; charset=utf-8") // TODO
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(newCommentFiles)
-	fmt.Println("GetNewCommentsHandler returned %d comment files", len(newCommentFiles))
+	fmt.Printf("GetNewCommentsHandler returned %d comment files\n", len(newCommentFiles))
 }
 
 func ApproveNewCommentHandler(w http.ResponseWriter, r *http.Request) {
@@ -55,7 +54,7 @@ func ApproveNewCommentHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	if err := doApproval(r.Context(), filenames[0]); err != nil {
 		http.Error(w, err.Error(), 500)
-		fmt.Fprintln(os.Stderr, "ApproveNewCommentHandler error: %v", err.Error())
+		fmt.Fprintf(os.Stderr, "ApproveNewCommentHandler error: %v\n", err.Error())
 		return
 	}
 	fmt.Println("ApproveNewCommentHandler succeeded")

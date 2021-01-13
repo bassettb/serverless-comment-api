@@ -63,12 +63,12 @@ func GetComments(w http.ResponseWriter, r *http.Request) {
 	comments, err := loadComments(r.Context())
 	if err != nil {
 		http.Error(w, err.Error(), 500)
-		fmt.Fprintln(os.Stderr, "GetComments error: %v", err.Error())
+		fmt.Fprintf(os.Stderr, "GetComments error: %v\n", err.Error())
 		return
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(comments)
-	fmt.Println("GetComments returned %d comments", len(comments))
+	fmt.Printf("GetComments returned %d comments\n", len(comments))
 }
 
 func PostComment(w http.ResponseWriter, r *http.Request) {
@@ -77,21 +77,21 @@ func PostComment(w http.ResponseWriter, r *http.Request) {
 	bytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, "bad request", 400)
-		fmt.Fprintln(os.Stderr, "PostComment error: %v", err.Error())
+		fmt.Fprintf(os.Stderr, "PostComment error: %v\n", err.Error())
 		return
 	}
 	var newComment NewComment
 	err = json.Unmarshal(bytes, &newComment)
 	if err != nil {
 		http.Error(w, "invalid payload", 400)
-		fmt.Fprintln(os.Stderr, "PostComment invalid payload: %v", err.Error())
+		fmt.Fprintf(os.Stderr, "PostComment invalid payload: %v\n", err.Error())
 		return
 	}
 
 	err = addNewComment(r.Context(), newComment)
 	if err != nil {
 		http.Error(w, "command failed", 500)
-		fmt.Fprintln(os.Stderr, "PostComment failed: %v", err.Error())
+		fmt.Fprintf(os.Stderr, "PostComment failed: %v\n", err.Error())
 		return
 	}
 	fmt.Println("PostComment succeeded")
